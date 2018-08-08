@@ -37,5 +37,5 @@ Pod::Spec.new do |s|
   # s.public_header_files = 'Pod/Classes/**/*.h'
     s.frameworks = 'SystemConfiguration'
   # s.dependency 'AFNetworking', '~> 2.3'
-    s.swift-version = 4.0
+    s.swift_version = '4.0'
 end
