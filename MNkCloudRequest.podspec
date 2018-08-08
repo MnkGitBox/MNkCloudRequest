@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'MNkCloudRequest'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1   '
   s.summary          = 'Help iOS Network Request Lib.'
 
 # This description is used to generate tags and improve search results.
@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 #   * Write the description between the DESC delimiters below.
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
-  s.description      = 'iOS library what help to call api request with out cording generic code lines.'
+  s.description      = 'iOS library what help to call api request with-out cording generic code lines.'
 
   s.homepage         = 'https://github.com/MnkGitBox/MNkCloudRequest'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'

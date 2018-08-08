@@ -58,16 +58,16 @@ enum FileTypes:String{
     public static var contentType = "application/json"
     
     //MARK:- REQUEST WITH NORMAL DATA RESULT..
-    public static func request(_ urlConvertable:String,_ method:RequestMethod = .get,_ parameters:[String:Any] = [:],_ headers:[String:Any] = [:],completed:@escaping (Data,HTTPURLResponse?,String?)->Void){
+    public static func request(_ urlConvertable:String,_ method:RequestMethod = .get,_ parameters:[String:Any] = [:],_ headers:[String:Any] = [:],completed:@escaping (Data?,HTTPURLResponse?,String?)->Void){
         
         guard Reacherbility.isInternetAccessible else {
             DispatchQueue.main.async {
-                completed(Data(),nil,"no internet connection.")
+                completed(nil,nil,"no internet connection.")
             }
             return
         }
         
-        guard let url = URL(string: urlConvertable) else{completed(Data(),nil,"use valid url string");return}
+        guard let url = URL(string: urlConvertable) else{completed(nil,nil,"use valid url string");return}
         
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
@@ -94,7 +94,7 @@ enum FileTypes:String{
         let session = URLSession.shared
         session.dataTask(with: request) { data, response, Error in
             DispatchQueue.main.async {
-                completed(data ?? Data(),response as? HTTPURLResponse,Error?.localizedDescription)
+                completed(data,response as? HTTPURLResponse,Error?.localizedDescription)
             }
             
             }.resume()
@@ -105,8 +105,9 @@ enum FileTypes:String{
     public static func request<T:Decodable>(_ urlConvertable:String,_ method:RequestMethod = .get,_ parameters:[String:Any] = [:],_ headers:[String:Any] = [:],completed:@escaping (T?,HTTPURLResponse?,String?)->Void){
         request(urlConvertable, method, parameters, headers) { (data, response, err) in
            
-            guard err == nil else{
-                
+            guard err == nil,
+            let _data = data
+            else{
                 DispatchQueue.main.async {
                    completed(nil,response,err)
                 }
@@ -114,13 +115,13 @@ enum FileTypes:String{
             }
             
             do{
-                let obj = try JSONDecoder().decode(T.self, from: data)
+                let obj = try JSONDecoder().decode(T.self, from: _data)
                 DispatchQueue.main.async {
                     completed(obj,response,err)
                 }
                 
             }catch let error{
-               completed(nil,nil,error.localizedDescription)
+               fatalError("Decode Error: \(error.localizedDescription)")
             }
             
         }
@@ -181,10 +182,8 @@ enum FileTypes:String{
                 let objc = try JSONDecoder().decode(T.self, from: _data)
                 completed(objc,httpResponse,err)
             }catch{
-                completed(nil,nil,error.localizedDescription)
+                fatalError("Decode Error: \(error.localizedDescription)")
             }
-            
-            
         }
         
     }
