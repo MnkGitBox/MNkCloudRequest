@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'MNkCloudRequest'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of MNkCloudRequest.'
+  s.summary          = 'Help iOS Network Request Lib.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -17,20 +17,18 @@ Pod::Spec.new do |s|
 #   * Write the description between the DESC delimiters below.
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
-  s.description      = <<-DESC
-TODO: Add long description of the pod here.
-                       DESC
+  s.description      = 'iOS library what help to call api request with out cording generic code lines.'
 
-  s.homepage         = 'https://github.com/m.nadeeshan@yahoo.co.uk/MNkCloudRequest'
+  s.homepage         = 'https://github.com/MnkGitBox/MNkCloudRequest'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'm.nadeeshan@yahoo.co.uk' => 'malith.mnk93@gmail.com' }
-  s.source           = { :git => 'https://github.com/m.nadeeshan@yahoo.co.uk/MNkCloudRequest.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  s.author           = { 'Malith Nadeeshan' => 'malith.mnk93@gmail.com' }
+  s.source           = { :git => 'https://github.com/MnkGitBox/MNkCloudRequest.git', :tag => s.version.to_s }
+  s.social_media_url = 'https://twitter.com/malithnadeeshan'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '11.0'
 
-  s.source_files = 'MNkCloudRequest/Classes/**/*'
+  s.source_files = 'Classes/**/*'
   
   # s.resource_bundles = {
   #   'MNkCloudRequest' => ['MNkCloudRequest/Assets/*.png']

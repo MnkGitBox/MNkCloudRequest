@@ -1,0 +1,16 @@
+PODS:
+  - MNkCloudRequest (0.1.0)
+
+DEPENDENCIES:
+  - MNkCloudRequest (from `../`)
+
+EXTERNAL SOURCES:
+  MNkCloudRequest:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  MNkCloudRequest: 7f665a44166ae28a4ce1a3cd1067330b5f7b9ad1
+
+PODFILE CHECKSUM: 2ed0b826dce3a9fad5ce1a5a9b9a845c702e1dbb
+
+COCOAPODS: 1.5.3
