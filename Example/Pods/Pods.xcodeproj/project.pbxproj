@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		18CDB7C69748CFC609C74063FD7E5550 /* Pods-MNkCloudRequest_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 86604B262422EE608B0349A71A3AA598 /* Pods-MNkCloudRequest_Example-dummy.m */; };
 		3188BD3F200597D482C7245F502F5E2C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
+		77B084FD211AAC9B005AE97A /* MNkCloudRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B084FC211AAC9B005AE97A /* MNkCloudRequest.swift */; };
+		77B084FF211AACD3005AE97A /* Reacherbility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B084FE211AACD3005AE97A /* Reacherbility.swift */; };
+		77B08501211AAD28005AE97A /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B08500211AAD28005AE97A /* Json.swift */; };
 		8DE49C5CCDD351E03436E3484AE4F2A7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
 		B1EEE606846F08DD42B17F0FBAA54DFD /* MNkCloudRequest-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 65744779F1676174168D9C2DF8F3A015 /* MNkCloudRequest-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B83C56F81AA28B8FCB9623FF797B01EB /* Pods-MNkCloudRequest_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = FA38912976E26F51D1A907F98A3DF62C /* Pods-MNkCloudRequest_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -52,6 +55,9 @@
 		6F7909B7B75CB354F304623E311A737F /* MNkCloudRequest-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MNkCloudRequest-dummy.m"; sourceTree = "<group>"; };
 		721C882E47639C8DDB179CA0074BDDA0 /* Pods-MNkCloudRequest_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MNkCloudRequest_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		750D8E0D5401D370E823C451FA78FE5A /* MNkCloudRequest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MNkCloudRequest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77B084FC211AAC9B005AE97A /* MNkCloudRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MNkCloudRequest.swift; sourceTree = "<group>"; };
+		77B084FE211AACD3005AE97A /* Reacherbility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reacherbility.swift; sourceTree = "<group>"; };
+		77B08500211AAD28005AE97A /* Json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Json.swift; sourceTree = "<group>"; };
 		792A504E1063DACE26110EE4488FE38C /* Pods-MNkCloudRequest_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MNkCloudRequest_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		7C1C65ADEDA4E6A235F36AA24B2D805D /* Pods-MNkCloudRequest_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MNkCloudRequest_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		8604D8BEAFEB8B34474CB5F9B7C2214E /* Pods-MNkCloudRequest_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MNkCloudRequest_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -119,6 +125,7 @@
 			children = (
 				C96B5A772D1A005672373C8E7BE6AFB6 /* Pod */,
 				13018974836DD162D8A6343937B58CBA /* Support Files */,
+				77B08502211AAD4D005AE97A /* Classes */,
 			);
 			name = MNkCloudRequest;
 			path = ../..;
@@ -130,6 +137,16 @@
 				5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */,
 			);
 			name = iOS;
+			sourceTree = "<group>";
+		};
+		77B08502211AAD4D005AE97A /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				77B084FC211AAC9B005AE97A /* MNkCloudRequest.swift */,
+				77B084FE211AACD3005AE97A /* Reacherbility.swift */,
+				77B08500211AAD28005AE97A /* Json.swift */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		7DB346D0F39D3F0E887471402A8071AB = {
@@ -315,6 +332,11 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0930;
 				LastUpgradeCheck = 0930;
+				TargetAttributes = {
+					5D16F4761D22CD4E00BDB76E2CC8133A = {
+						LastSwiftMigration = 0940;
+					};
+				};
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -356,7 +378,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77B084FF211AACD3005AE97A /* Reacherbility.swift in Sources */,
+				77B084FD211AAC9B005AE97A /* MNkCloudRequest.swift in Sources */,
 				F086254F11D139AFC3459E3A1EAD28A8 /* MNkCloudRequest-dummy.m in Sources */,
+				77B08501211AAD28005AE97A /* Json.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,6 +475,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4C2FE9257370E0313661F4B158E10A16 /* MNkCloudRequest.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -566,7 +592,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -580,6 +606,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4C2FE9257370E0313661F4B158E10A16 /* MNkCloudRequest.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -658,7 +685,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
