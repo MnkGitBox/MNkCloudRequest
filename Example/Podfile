@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'MNkCloudRequest_Example' do
+  pod 'MNkCloudRequest', :path => '../'
+
+  target 'MNkCloudRequest_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
