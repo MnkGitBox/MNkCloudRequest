@@ -52,9 +52,9 @@ enum FileTypes:String{
 }
 
 
- public struct MNkCloudRequest{
+public struct MNkCloudRequest{
     
-//    public static var contentType = "application/x-www-form-urlencoded"
+    //    public static var contentType = "application/x-www-form-urlencoded"
     public static var contentType = "application/json"
     
     //MARK:- REQUEST WITH NORMAL DATA RESULT..
@@ -73,17 +73,30 @@ enum FileTypes:String{
         request.httpMethod = method.rawValue
         
         let stringOFParam = parameters.map { (key,value) -> String in
-            return "\(key)=\(value)"
+            
+            guard let _valueDic = value as? [Any] else{
+                return "\(key)=\(value)"
+            }
+            
+            do{
+                let _valueDicData = try JSONSerialization.data(withJSONObject: _valueDic, options: .prettyPrinted)
+                guard let valueDicString = String(bytes: _valueDicData, encoding: .utf8) else{
+                    return "\(key)=\(value)"
+                }
+                return "\(key)=\(valueDicString)"
+            }catch{
+                return "\(key)=\(value)"
+            }
             }.joined(separator: "&")
         
         if parameters.count > 0 {
-            request.httpBody = stringOFParam.data(using: .utf8)
+            request.httpBody = stringOFParam.data(using: .utf8, allowLossyConversion: true)
         }
         
         var _headers = headers
         _headers[ "Content-Type"] = contentType
         _headers["Accept"] = contentType
-    
+        
         
         if _headers.count > 0 {
             for header in _headers{
@@ -104,14 +117,14 @@ enum FileTypes:String{
     //MARK:- REQUEST WITH DECORDABLE MODEL RESULT..
     public static func request<T:Decodable>(_ urlConvertable:String,_ method:RequestMethod = .get,_ parameters:[String:Any] = [:],_ headers:[String:Any] = [:],completed:@escaping (T?,HTTPURLResponse?,String?)->Void){
         request(urlConvertable, method, parameters, headers) { (data, response, err) in
-           
+            
             guard err == nil,
-            let _data = data
-            else{
-                DispatchQueue.main.async {
-                   completed(nil,response,err)
-                }
-                return
+                let _data = data
+                else{
+                    DispatchQueue.main.async {
+                        completed(nil,response,err)
+                    }
+                    return
             }
             
             do{
@@ -121,7 +134,7 @@ enum FileTypes:String{
                 }
                 
             }catch let error{
-               fatalError("Decode Error: \(error.localizedDescription)")
+                fatalError("Decode Error: \(error.localizedDescription)")
             }
             
         }
