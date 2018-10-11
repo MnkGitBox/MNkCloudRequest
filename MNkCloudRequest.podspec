@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'MNkCloudRequest'
-  s.version          = '0.1.2'
+  s.version          = '0.1.2.1'
   s.summary          = 'Help iOS Network Request Lib.'
 
 # This description is used to generate tags and improve search results.
