@@ -9,8 +9,7 @@ import Foundation
 
 public struct MNkCloudRequest{
     
-    //    public static var contentType = "application/x-www-form-urlencoded"
-    public static var contentType = "application/x-www-form-urlencoded"
+    public static var contentType:ContentType = .formData
     
     //MARK:- REQUEST WITH NORMAL DATA RESULT..
     public static func request(_ urlConvertable:String,
@@ -26,10 +25,15 @@ public struct MNkCloudRequest{
         }
         
         do{
-            let bodyParamData = try BodyParameters(parameters).encode()
+            print(parameters)
+            
+            let bodyParamData = try BodyParameters(parameters, contentType).encode()
+            
+            print("param data :",String(data: bodyParamData, encoding: .utf8) ?? "Cant decode")
+            
             let request = MNKRequest(to: urlConvertable,
                                      bodyParamData,
-                                     contentType,
+                                     contentType.rawValue,
                                      method)
             request.perform(completed: completed)
         }catch{
@@ -47,26 +51,26 @@ public struct MNkCloudRequest{
         request(urlConvertable,
                 method,
                 parameters) { (data, response, err) in
-            
-            guard err == nil,
-                let _data = data
-                else{
-                    DispatchQueue.main.async {
-                        completed(nil,response,err)
+                    
+                    guard err == nil,
+                        let _data = data
+                        else{
+                            DispatchQueue.main.async {
+                                completed(nil,response,err)
+                            }
+                            return
                     }
-                    return
-            }
-            
-            do{
-                let obj = try JSONDecoder().decode(T.self, from: _data)
-                DispatchQueue.main.async {
-                    completed(obj,response,err)
-                }
-                
-            }catch let error{
-                completed(nil,nil,"Type Decoding error: \(error.localizedDescription)")
-            }
-            
+                    
+                    do{
+                        let obj = try JSONDecoder().decode(T.self, from: _data)
+                        DispatchQueue.main.async {
+                            completed(obj,response,err)
+                        }
+                        
+                    }catch let error{
+                        completed(nil,nil,"Type Decoding error: \(error.localizedDescription)")
+                    }
+                    
         }
     }
     
@@ -100,6 +104,5 @@ public struct MNkCloudRequest{
             }catch let err{completed(nil,response,err.localizedDescription)}
         }
     }
-    
     
 }

@@ -22,13 +22,18 @@ class BodyParameters{
     
     private var bodyParams:[BodyParam]
     
+    private var contentType:ContentType
+    
     struct EncodingChar{
-        static let seperator:String = "&"
+        static let seperatorAt:String = "&"
+        static let seperatorComma = ","
         static let equalizer = "="
+        static let signColon = ":"
     }
     
-    init(_ parameters:[String:Any]) {
+    init(_ parameters:[String:Any],_ contentType:ContentType) {
         bodyParams = []
+        self.contentType = contentType
         append(parameters)
     }
     
@@ -43,25 +48,22 @@ class BodyParameters{
     
     ///Encode parameters to data.
     func encode()throws->Data{
-        var encoded = Data()
         
-        for bodyParam in bodyParams{
-            do{
-                let encodeData = bodyParam.isNextedValues ? try encode(bodyParam) : try encode(bodyParam.name, bodyParam.value)
-                encoded.append(encodeData)
-            }catch let err{
-                throw err
-            }
+        guard !bodyParams.isEmpty else{return Data()}
+        
+        guard contentType == .formData else{
+            return try encodeForJsonBody()
         }
         
-        return encoded
+        return try encodeForFormData()
     }
     
     //Encode normal type parameters without nexted parameters
     private func encode(_ name:String,
                         _ value:Any)throws->Data{
+        
         var paramtext = "\(name)\(EncodingChar.equalizer)\(value)"
-        paramtext = paramtext + EncodingChar.seperator
+        paramtext = paramtext + EncodingChar.seperatorAt
         guard let paramData = paramtext.data(using: .utf8, allowLossyConversion: false)
             else{
                 throw MNKCloudError.parametersEncodingFailed(reason:.dataEncodefail(error:paramtext))
@@ -80,5 +82,31 @@ class BodyParameters{
         
         return try encode(bodyParam.name, serializeNextedValText)
     }
- 
+    
+    //Encode body params for form type
+    private func encodeForFormData()throws->Data{
+        var encoded = Data()
+        for bodyParam in bodyParams{
+            do{
+                let encodeData = bodyParam.isNextedValues ? try encode(bodyParam) : try encode(bodyParam.name, bodyParam.value)
+                encoded.append(encodeData)
+            }catch let err{
+                throw err
+            }
+        }
+        return encoded
+    }
+    
+    //Encode for Json Body type
+    private func encodeForJsonBody()throws->Data{
+        var encoded = Data()
+        let paramDic = Dictionary(uniqueKeysWithValues: bodyParams.map{($0.name,$0.value)})
+        do{
+            encoded = try JSONSerialization.data(withJSONObject: paramDic, options: .prettyPrinted)
+        }catch let err{
+            throw err
+        }
+        return encoded
+    }
+    
 }

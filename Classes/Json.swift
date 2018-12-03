@@ -26,6 +26,7 @@ public struct Json{
             self.description = try JSONSerialization.jsonObject(with: _data, options: .mutableContainers)
         }catch let err{
             self.description = [:]
+            print("json encoding error: \(err.localizedDescription)")
         }
     }
     

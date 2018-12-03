@@ -9,13 +9,13 @@ import Foundation
 
 class MNKRequest {
     
-    private let data:Data
+    private let data:Data?
     private let contentType:String
     private let method:RequestMethod
     private let url:UrlConvertable
     private var headers:[String:String] = [:]
     
-    init(to url:UrlConvertable,_ data:Data,_ contentType:String,_ method:RequestMethod) {
+    init(to url:UrlConvertable,_ data:Data?,_ contentType:String,_ method:RequestMethod) {
         self.url = url
         self.data = data
         self.contentType = contentType
@@ -46,6 +46,6 @@ class MNKRequest {
             DispatchQueue.main.async {
                 completed(data,response as? HTTPURLResponse,err?.localizedDescription)
             }
-        }.resume()
+            }.resume()
     }
 }

@@ -77,3 +77,8 @@ public enum RequestMethod:String{
     case delete = "DELETE"
     case put = "PUT"
 }
+
+public enum ContentType:String{
+    case json = "application/json"
+    case formData = "application/x-www-form-urlencoded"
+}
