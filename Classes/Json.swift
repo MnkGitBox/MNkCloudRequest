@@ -90,22 +90,22 @@ public struct Json{
 }
 
 public extension Dictionary where Key == String{
-    public func stringVal(for key:String)->String{
+    func stringVal(for key:String)->String{
         return self[key] as? String ?? ""
     }
-    public func intVal(for key:String)->Int{
+    func intVal(for key:String)->Int{
         return self[key] as? Int ?? 0
     }
-    public func dictionaryValue(for key:String)->[String:Any]{
+    func dictionaryValue(for key:String)->[String:Any]{
         return self[key] as? [String:Any] ?? [:]
     }
-    public func boolVal(for key:String)->Bool{
+    func boolVal(for key:String)->Bool{
         return self[key] as? Bool ?? false
     }
-    public func doubleValue(for key:String)->Double{
+    func doubleValue(for key:String)->Double{
         return self[key] as? Double ?? 0.0
     }
-    public func nsArray(for key:String)->NSArray{
+    func nsArray(for key:String)->NSArray{
         return self[key] as? NSArray ?? []
     }
 }
