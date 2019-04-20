@@ -15,6 +15,7 @@ public struct MNkCloudRequest{
     public static func request(_ urlConvertable:String,
                                _ method:RequestMethod = .get,
                                _ parameters:[String:Any] = [:],
+                               _ headers:[String:String] = [:],
                                completed:@escaping (Data?,HTTPURLResponse?,String?)->Void){
         
         guard Reacherbility.isInternetAccessible else {
@@ -25,16 +26,14 @@ public struct MNkCloudRequest{
         }
         
         do{
-            print(parameters)
             
             let bodyParamData = try BodyParameters(parameters, contentType).encode()
-            
-            print("param data :",String(data: bodyParamData, encoding: .utf8) ?? "Cant decode")
             
             let request = MNKRequest(to: urlConvertable,
                                      bodyParamData,
                                      contentType.rawValue,
-                                     method)
+                                     method,
+                                     headers)
             request.perform(completed: completed)
         }catch{
             completed(nil,nil,error.localizedDescription)
@@ -46,11 +45,13 @@ public struct MNkCloudRequest{
     public static func request<T:Decodable>(_ urlConvertable:String,
                                             _ method:RequestMethod = .get,
                                             _ parameters:[String:Any] = [:],
+                                            _ headers:[String:String] = [:],
                                             completed:@escaping (T?,HTTPURLResponse?,String?)->Void){
         
         request(urlConvertable,
                 method,
-                parameters) { (data, response, err) in
+                parameters,
+                headers) { (data, response, err) in
                     
                     guard err == nil,
                         let _data = data

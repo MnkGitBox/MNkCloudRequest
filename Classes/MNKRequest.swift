@@ -15,12 +15,12 @@ class MNKRequest {
     private let url:UrlConvertable
     private var headers:[String:String] = [:]
     
-    init(to url:UrlConvertable,_ data:Data?,_ contentType:String,_ method:RequestMethod) {
+    init(to url:UrlConvertable,_ data:Data?,_ contentType:String,_ method:RequestMethod,_ headers:[String:String] = [:]) {
         self.url = url
         self.data = data
         self.contentType = contentType
         self.method = method
-        
+        self.headers = headers
         self.headers[ "Content-Type"] = contentType
         self.headers["Accept"] = contentType
     }
