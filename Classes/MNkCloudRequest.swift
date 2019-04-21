@@ -80,6 +80,7 @@ public struct MNkCloudRequest{
     public static func upload(multipartData:@escaping(MultipartFormData)->Void,
                               to url:UrlConvertable,
                               _ method:RequestMethod = .post ,
+                              _ headers:[String:String] = [:],
                               completed:@escaping (Data?,HTTPURLResponse?,String?)->Void){
         let formData = MultipartFormData()
         multipartData(formData)
@@ -87,7 +88,8 @@ public struct MNkCloudRequest{
         let request = MNKRequest(to: url,
                                  formData.encode(),
                                  formData.contentType,
-                                 method)
+                                 method,
+                                 headers)
         request.perform(completed: completed)
     }
     
@@ -95,9 +97,10 @@ public struct MNkCloudRequest{
     public static func upload<T:Decodable>(multipartData:@escaping(MultipartFormData)->Void,
                                            to url:UrlConvertable,
                                            _ method:RequestMethod = .post ,
+                                           _ headers:[String:String] = [:],
                                            completed:@escaping (T?,HTTPURLResponse?,String?)->Void){
         
-        self.upload(multipartData: multipartData, to: url, method) { (data, response, error) in
+        self.upload(multipartData: multipartData, to: url, method,headers) { (data, response, error) in
             guard let _data = data else{completed(nil,nil,"empty result");return}
             do{
                 let decodedTypeData = try JSONDecoder().decode(T.self, from: _data)
