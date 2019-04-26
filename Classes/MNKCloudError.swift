@@ -12,6 +12,7 @@ public enum MNKCloudError:Error{
     public enum ParameterEncodingFail{
         case jsonEncodingfail(error:String)
         case dataEncodefail(error:String)
+        case keyValueEncodingFaile(error:String)
     }
     
     public enum JsonDecodingReasons{
@@ -53,6 +54,8 @@ extension MNKCloudError.ParameterEncodingFail{
             return "Failed to encode data : \(aditionalReason)"
         case .jsonEncodingfail(let aditionalData):
             return "Failed to encode json :\(aditionalData)"
+        case .keyValueEncodingFaile(let aditionalData):
+            return "Couldn't find Key:Value fair from given parameters -> \(aditionalData)"
         }
     }
 }

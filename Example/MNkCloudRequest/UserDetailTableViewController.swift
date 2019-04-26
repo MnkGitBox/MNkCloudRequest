@@ -20,6 +20,8 @@ class UserDetailTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchRequest()
+//        MNkCloudRequest.contentType = .json
+//        fetchArrayData()
         tableView.tableFooterView = UIView()
     }
     
@@ -33,6 +35,16 @@ class UserDetailTableViewController: UITableViewController {
                     return
             }
            self?.users = _users
+        }
+    }
+    
+    private func fetchArrayData(){
+        let param = [["id" : 2, "qty" : 2],
+        ["id" : 3, "qty" : 10],
+        ["id" : 4, "qty" : 2]]
+        
+        MNkCloudRequest.request("http://teamazbow.com/mojudev/mobile/getDeliveryCharge", .post, param) { (data, response, err) in
+            print(Json(data).description)
         }
     }
 

@@ -9,6 +9,7 @@ import Foundation
 
 class BodyParameters{
     
+    //Paramaeter Model
     struct BodyParam{
         var name:String
         var value:Any
@@ -22,6 +23,8 @@ class BodyParameters{
     
     private var bodyParams:[BodyParam]
     
+    private var parameters:Any
+    
     private var contentType:ContentType
     
     struct EncodingChar{
@@ -31,10 +34,16 @@ class BodyParameters{
         static let signColon = ":"
     }
     
-    init(_ parameters:[String:Any],_ contentType:ContentType) {
+    init(_ parameters:Any,_ contentType:ContentType) {
         bodyParams = []
         self.contentType = contentType
-        append(parameters)
+        self.parameters = parameters
+    }
+    
+    //initalize body parameters array for help mutipart data
+    private func initBodyParam(){
+        guard let paramDic = parameters as? [String:Any] else{return}
+        append(paramDic)
     }
     
     //Assign parameters to BodyParam Data type and add to [BodyParam].
@@ -49,6 +58,12 @@ class BodyParameters{
     ///Encode parameters to data.
     func encode()throws->Data{
         
+        guard contentType == .formData else{
+            return try encodeForJsonBody()
+        }
+        
+        //Do body paramaeters encoding func for multipart form data
+        initBodyParam()
         guard !bodyParams.isEmpty else{return Data()}
         
         guard contentType == .formData else{
@@ -100,9 +115,8 @@ class BodyParameters{
     //Encode for Json Body type
     private func encodeForJsonBody()throws->Data{
         var encoded = Data()
-        let paramDic = Dictionary(uniqueKeysWithValues: bodyParams.map{($0.name,$0.value)})
         do{
-            encoded = try JSONSerialization.data(withJSONObject: paramDic, options: .prettyPrinted)
+           encoded = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
         }catch let err{
             throw err
         }
