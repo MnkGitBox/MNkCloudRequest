@@ -23,7 +23,7 @@ class BodyParameters{
     
     private var bodyParams:[BodyParam]
     
-    private var parameters:Any
+    private var parameters:Any?
     
     private var contentType:ContentType
     
@@ -34,7 +34,7 @@ class BodyParameters{
         static let signColon = ":"
     }
     
-    init(_ parameters:Any,_ contentType:ContentType) {
+    init(_ parameters:Any?,_ contentType:ContentType) {
         bodyParams = []
         self.contentType = contentType
         self.parameters = parameters
@@ -56,7 +56,7 @@ class BodyParameters{
     }
     
     ///Encode parameters to data.
-    func encode()throws->Data{
+    func encode()throws->Data?{
         
         guard contentType == .formData else{
             return try encodeForJsonBody()
@@ -64,7 +64,7 @@ class BodyParameters{
         
         //Do body paramaeters encoding func for multipart form data
         initBodyParam()
-        guard !bodyParams.isEmpty else{return Data()}
+        guard !bodyParams.isEmpty else{return nil}
         
         guard contentType == .formData else{
             return try encodeForJsonBody()
@@ -113,14 +113,15 @@ class BodyParameters{
     }
     
     //Encode for Json Body type
-    private func encodeForJsonBody()throws->Data{
-        var encoded = Data()
+    private func encodeForJsonBody()throws->Data?{
+        var encoded:Data?
         do{
-           encoded = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+            guard let _parameter = parameters else{return encoded}
+            encoded = try JSONSerialization.data(withJSONObject: _parameter, options: .prettyPrinted)
+            return encoded
         }catch let err{
             throw err
         }
-        return encoded
     }
     
 }

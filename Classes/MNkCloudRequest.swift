@@ -14,7 +14,7 @@ public struct MNkCloudRequest{
     //MARK:- REQUEST WITH NORMAL DATA RESULT..
     public static func request(_ urlConvertable:String,
                                _ method:RequestMethod = .get,
-                               _ parameters:Any = [],
+                               _ parameters:Any? = nil,
                                _ headers:[String:String] = [:],
                                completed:@escaping (Data?,HTTPURLResponse?,String?)->Void){
         
@@ -27,7 +27,7 @@ public struct MNkCloudRequest{
         
         do{
             
-            let bodyParamData = try BodyParameters(parameters, contentType).encode()
+            let bodyParamData = try BodyParameters(parameters,contentType).encode()
             let request = MNKRequest(to: urlConvertable,
                                      bodyParamData,
                                      contentType.rawValue,
@@ -43,7 +43,7 @@ public struct MNkCloudRequest{
     //MARK:- REQUEST WITH DECORDABLE MODEL RESULT..
     public static func request<T:Decodable>(_ urlConvertable:String,
                                             _ method:RequestMethod = .get,
-                                            _ parameters:Any = [],
+                                            _ parameters:Any? = nil,
                                             _ headers:[String:String] = [:],
                                             completed:@escaping (T?,HTTPURLResponse?,String?)->Void){
         
