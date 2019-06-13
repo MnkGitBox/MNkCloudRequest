@@ -16,6 +16,7 @@ public struct MNkCloudRequest{
                                _ method:RequestMethod = .get,
                                _ parameters:Any? = nil,
                                _ headers:[String:String] = [:],
+                               _ encoding:EnocodingType = .none,
                                completed:@escaping (Data?,HTTPURLResponse?,String?)->Void){
         
         guard Reacherbility.isInternetAccessible else {
@@ -27,13 +28,14 @@ public struct MNkCloudRequest{
         
         do{
             
-            let bodyParamData = try BodyParameters(parameters,contentType).encode()
-            let request = MNKRequest(to: urlConvertable,
-                                     bodyParamData,
-                                     contentType.rawValue,
-                                     method,
-                                     headers)
+            let request = try MNKRequest(to: urlConvertable,
+                                         contentType.rawValue,
+                                         method,
+                                         headers,
+                                         parameters,
+                                         encoding)
             request.perform(completed: completed)
+            
         }catch{
             completed(nil,nil,error.localizedDescription)
         }
@@ -45,6 +47,7 @@ public struct MNkCloudRequest{
                                             _ method:RequestMethod = .get,
                                             _ parameters:Any? = nil,
                                             _ headers:[String:String] = [:],
+                                            _ encoding:EnocodingType = .json,
                                             completed:@escaping (T?,HTTPURLResponse?,String?)->Void){
         
         request(urlConvertable,
@@ -84,12 +87,14 @@ public struct MNkCloudRequest{
         let formData = MultipartFormData()
         multipartData(formData)
         
-        let request = MNKRequest(to: url,
-                                 formData.encode(),
-                                 formData.contentType,
-                                 method,
-                                 headers)
-        request.perform(completed: completed)
+        let request = try?  MNKRequest.init(to: url,
+                                            formData.contentType,
+                                            method,
+                                            headers,
+                                            formData,
+                                            .upload)
+        
+        request?.perform(completed: completed)
     }
     
     ///Upload data with multipart way. Result object will be decoded to given type

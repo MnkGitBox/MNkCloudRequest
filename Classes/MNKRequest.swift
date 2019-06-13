@@ -8,33 +8,48 @@
 import Foundation
 
 class MNKRequest {
-    
-    private let data:Data?
     private let contentType:String
     private let method:RequestMethod
     private let url:UrlConvertable
     private var headers:[String:String] = [:]
     
-    init(to url:UrlConvertable,_ data:Data?,_ contentType:String,_ method:RequestMethod,_ headers:[String:String] = [:]) {
+    private var bodyParams:[RequestParams] = []
+    
+    private var request:URLRequest!
+    
+    init(to url:UrlConvertable,_ contentType:String,_ method:RequestMethod,_ headers:[String:String] = [:],_ parameters:Any? = nil,_ encoding:EnocodingType)throws{
         self.url = url
-        self.data = data
         self.contentType = contentType
         self.method = method
         self.headers = headers
         self.headers[ "Content-Type"] = contentType
         self.headers["Accept"] = contentType
+        
+        bodyParams = try EncodedParam.encode(parameters)
+        self.request = try initRequestData(for: encoding, with: parameters)
     }
     
-    func perform(completed:@escaping (Data?,HTTPURLResponse?,String?)->Void){
-        
+    
+    private func initRequestData(for encoding:EnocodingType, with param:Any?)throws->URLRequest{
         guard let _url = try? url.getURL() else{
-            completed(nil,nil,MNKCloudError.invalidURl(url: url).localizedDescription)
-            return
+            throw MNKCloudError.parametersEncodingFailed(reason:.dataEncodefail(error: "No Encodable Url in request"))
         }
         
-        var request = URLRequest(url: _url)
-        request.httpMethod = method.rawValue
-        request.httpBody = data
+        switch encoding{
+        case .formData:
+            return try RequestForFormData.build(for: _url, method, with: bodyParams)
+        case .json:
+            return try RequestForJsonData.build(of: _url, method, with: param)
+        case .none:
+            return try RequestForNormal.build(for: _url, method, with: bodyParams)
+        case .upload:
+            return try RequestForUpload.build(of: _url, method, with: param)
+        }
+    }
+    
+    
+    
+    func perform(completed:@escaping (Data?,HTTPURLResponse?,String?)->Void){
         
         for header in headers{
             request.addValue(header.value, forHTTPHeaderField: header.key )
@@ -48,4 +63,13 @@ class MNKRequest {
             }
             }.resume()
     }
+    
 }
+
+
+
+
+
+
+
+

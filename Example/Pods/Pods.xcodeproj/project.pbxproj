@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		18CDB7C69748CFC609C74063FD7E5550 /* Pods-MNkCloudRequest_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 86604B262422EE608B0349A71A3AA598 /* Pods-MNkCloudRequest_Example-dummy.m */; };
 		3188BD3F200597D482C7245F502F5E2C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
+		77636FB222B25F000053338C /* Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77636FB122B25F000053338C /* Encoder.swift */; };
 		77B084FD211AAC9B005AE97A /* MNkCloudRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B084FC211AAC9B005AE97A /* MNkCloudRequest.swift */; };
 		77B084FF211AACD3005AE97A /* Reacherbility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B084FE211AACD3005AE97A /* Reacherbility.swift */; };
 		77B08501211AAD28005AE97A /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B08500211AAD28005AE97A /* Json.swift */; };
@@ -60,6 +61,7 @@
 		6F7909B7B75CB354F304623E311A737F /* MNkCloudRequest-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MNkCloudRequest-dummy.m"; sourceTree = "<group>"; };
 		721C882E47639C8DDB179CA0074BDDA0 /* Pods-MNkCloudRequest_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MNkCloudRequest_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		750D8E0D5401D370E823C451FA78FE5A /* MNkCloudRequest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MNkCloudRequest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77636FB122B25F000053338C /* Encoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encoder.swift; sourceTree = "<group>"; };
 		77B084FC211AAC9B005AE97A /* MNkCloudRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MNkCloudRequest.swift; sourceTree = "<group>"; };
 		77B084FE211AACD3005AE97A /* Reacherbility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reacherbility.swift; sourceTree = "<group>"; };
 		77B08500211AAD28005AE97A /* Json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Json.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				77B44849218B0A7C00607085 /* MNKCloudError.swift */,
 				77B4484B218B0AB300607085 /* MNKRequest.swift */,
 				77B4484D218B0AE900607085 /* BodyParameters.swift */,
+				77636FB122B25F000053338C /* Encoder.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 			files = (
 				77B44848218B08C400607085 /* MultipartFormData.swift in Sources */,
 				77B4484A218B0A7C00607085 /* MNKCloudError.swift in Sources */,
+				77636FB222B25F000053338C /* Encoder.swift in Sources */,
 				77B4484C218B0AB300607085 /* MNKRequest.swift in Sources */,
 				77B084FF211AACD3005AE97A /* Reacherbility.swift in Sources */,
 				77B084FD211AAC9B005AE97A /* MNkCloudRequest.swift in Sources */,

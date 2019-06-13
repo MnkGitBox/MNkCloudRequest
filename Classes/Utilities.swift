@@ -82,3 +82,28 @@ public enum ContentType:String{
     case json = "application/json"
     case formData = "application/x-www-form-urlencoded"
 }
+
+public enum EnocodingType{
+    case json
+    case formData
+    case upload
+    case none
+}
+
+struct RequestParams{
+    var name:String
+    var value:Any
+    var isNextedValues:Bool = false
+    
+    init(_ name:String,_ value:Any) {
+        self.name = name
+        self.value = value
+    }
+}
+
+struct EncodingChar{
+    static let seperatorAt:String = "&"
+    static let seperatorComma = ","
+    static let equalizer = "="
+    static let signColon = ":"
+}
