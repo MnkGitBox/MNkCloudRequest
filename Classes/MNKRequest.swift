@@ -25,7 +25,7 @@ class MNKRequest {
         self.headers[ "Content-Type"] = contentType
         self.headers["Accept"] = contentType
         
-        bodyParams = try EncodedParam.encode(parameters)
+        bodyParams = EncodedParam.encode(parameters)
         self.request = try initRequestData(for: encoding, with: parameters)
     }
     

@@ -86,9 +86,9 @@ struct RequestForUpload{
  This mainly for encode paramters for form data and normal utl type data
  ........................................................................*/
 struct EncodedParam{
-    static func encode(_ parameters:Any?)throws->[RequestParams]{
+    static func encode(_ parameters:Any?)->[RequestParams]{
         guard let paramDic = parameters as? [String:Any] else{
-            throw MNKCloudError.parametersEncodingFailed(reason:.dataEncodefail(error: "No Encodable parameters in param dic"))
+            return []
         }
         return append(paramDic)
     }
