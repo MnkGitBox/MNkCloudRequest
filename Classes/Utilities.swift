@@ -23,7 +23,7 @@ extension Data {
         0x25 : "application/pdf",
         0xD0 : "application/vnd",
         0x46 : "text/plain",
-        ]
+    ]
     
     var mimeType: String {
         var c: UInt8 = 0

@@ -16,7 +16,7 @@ public struct MNkCloudRequest{
                                _ method:RequestMethod = .get,
                                _ parameters:Any? = nil,
                                _ headers:[String:String] = [:],
-                               _ encoding:EnocodingType = .none,
+                               _ encoding:EnocodingType = .json,
                                completed:@escaping (Data?,HTTPURLResponse?,String?)->Void){
         
         guard Reacherbility.isInternetAccessible else {
@@ -53,7 +53,8 @@ public struct MNkCloudRequest{
         request(urlConvertable,
                 method,
                 parameters,
-                headers) { (data, response, err) in
+                headers,
+                encoding) { (data, response, err) in
                     
                     guard err == nil,
                         let _data = data
@@ -71,7 +72,8 @@ public struct MNkCloudRequest{
                         }
                         
                     }catch let error{
-                        completed(nil,nil,"Type Decoding error: \(error.localizedDescription)")
+                        fatalError()
+                        //                        completed(nil,nil,"Type Decoding error: \(error.localizedDescription)")
                     }
                     
         }

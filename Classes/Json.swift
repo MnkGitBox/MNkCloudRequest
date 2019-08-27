@@ -108,4 +108,7 @@ public extension Dictionary where Key == String{
     func nsArray(for key:String)->NSArray{
         return self[key] as? NSArray ?? []
     }
+    func arrayValue(for key:String)->Array<Dictionary>{
+        return self[key] as? [Dictionary] ?? []
+    }
 }
