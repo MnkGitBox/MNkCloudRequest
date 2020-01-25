@@ -22,6 +22,8 @@ public enum MNKCloudError:Error{
     case invalidURl(url: UrlConvertable)
     case parametersEncodingFailed(reason:ParameterEncodingFail)
     case jsonDecodingFailed(reason:JsonDecodingReasons)
+    case noInternet(error:String)
+    case uploadErro(error:String)
 }
 
 extension MNKCloudError{
@@ -43,6 +45,10 @@ extension MNKCloudError:LocalizedError{
             return reason.localizedDescription
         case .parametersEncodingFailed(let reason):
             return reason.localizedDescription
+        case .noInternet(let err):
+            return err
+        case .uploadErro(let err):
+            return err
         }
     }
 }

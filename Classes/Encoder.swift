@@ -14,8 +14,7 @@ struct RequestForNormal{
     static func build(for url:URL,_ method:RequestMethod,with params:[RequestParams])throws->URLRequest{
         var urlComponent = URLComponents.init(url: url, resolvingAgainstBaseURL: false)
         let precentageEncQuery = try EncodeQueryString.encode(of: params)
-        urlComponent?.percentEncodedQuery =  precentageEncQuery
-        
+        urlComponent?.percentEncodedQuery =  precentageEncQuery.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
         var request = URLRequest(url: urlComponent!.url! )
         request.httpMethod = method.rawValue
         return request
@@ -70,16 +69,6 @@ struct RequestForUpload{
         return request
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 /*.......................................................................
  MARK:- Parameters encode for identified type ResponseParam,

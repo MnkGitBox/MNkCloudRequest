@@ -49,7 +49,7 @@ class MNKRequest {
     
     
     
-    func perform(completed:@escaping (Data?,HTTPURLResponse?,String?)->Void){
+    func perform(completed:@escaping (Data?,HTTPURLResponse?,Error?)->Void){
         
         for header in headers{
             request.addValue(header.value, forHTTPHeaderField: header.key )
@@ -59,7 +59,7 @@ class MNKRequest {
         
         session.dataTask(with: request) { (data, response, err) in
             DispatchQueue.main.async {
-                completed(data,response as? HTTPURLResponse,err?.localizedDescription)
+                completed(data,response as? HTTPURLResponse,err)
             }
             }.resume()
     }

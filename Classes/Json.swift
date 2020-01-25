@@ -17,9 +17,7 @@ public struct Json{
     private var dic:[String:Any]{
         return description as? [String:Any] ?? [:]
     }
-    
-    
-    
+
     public init(_ data:Data?) {
         guard let _data = data else{self.description = [:];return}
         do{

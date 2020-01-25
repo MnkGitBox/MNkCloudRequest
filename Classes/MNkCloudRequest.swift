@@ -17,11 +17,11 @@ public struct MNkCloudRequest{
                                _ parameters:Any? = nil,
                                _ headers:[String:String] = [:],
                                _ encoding:EnocodingType = .json,
-                               completed:@escaping (Data?,HTTPURLResponse?,String?)->Void){
+                               completed:@escaping (Data?,HTTPURLResponse?,Error?)->Void){
         
         guard Reacherbility.isInternetAccessible else {
             DispatchQueue.main.async {
-                completed(nil,nil,"no internet connection.")
+                completed(nil,nil,MNKCloudError.noInternet(error: "No Active Internet Connection"))
             }
             return
         }
@@ -37,7 +37,7 @@ public struct MNkCloudRequest{
             request.perform(completed: completed)
             
         }catch{
-            completed(nil,nil,error.localizedDescription)
+            completed(nil,nil,error)
         }
     }
     
@@ -48,7 +48,7 @@ public struct MNkCloudRequest{
                                             _ parameters:Any? = nil,
                                             _ headers:[String:String] = [:],
                                             _ encoding:EnocodingType = .json,
-                                            completed:@escaping (T?,HTTPURLResponse?,String?)->Void){
+                                            completed:@escaping (T?,HTTPURLResponse?,Error?)->Void){
         
         request(urlConvertable,
                 method,
@@ -72,8 +72,7 @@ public struct MNkCloudRequest{
                         }
                         
                     }catch let error{
-                        fatalError()
-                        //                        completed(nil,nil,"Type Decoding error: \(error.localizedDescription)")
+                        completed(nil,nil,error)
                     }
                     
         }
@@ -85,7 +84,7 @@ public struct MNkCloudRequest{
                               to url:UrlConvertable,
                               _ method:RequestMethod = .post ,
                               _ headers:[String:String] = [:],
-                              completed:@escaping (Data?,HTTPURLResponse?,String?)->Void){
+                              completed:@escaping (Data?,HTTPURLResponse?,Error?)->Void){
         let formData = MultipartFormData()
         multipartData(formData)
         
@@ -104,14 +103,14 @@ public struct MNkCloudRequest{
                                            to url:UrlConvertable,
                                            _ method:RequestMethod = .post ,
                                            _ headers:[String:String] = [:],
-                                           completed:@escaping (T?,HTTPURLResponse?,String?)->Void){
+                                           completed:@escaping (T?,HTTPURLResponse?,Error?)->Void){
         
         self.upload(multipartData: multipartData, to: url, method,headers) { (data, response, error) in
-            guard let _data = data else{completed(nil,nil,"empty result");return}
+            guard let _data = data else{completed(nil,nil,MNKCloudError.uploadErro(error: "Empty Data for Upload"));return}
             do{
                 let decodedTypeData = try JSONDecoder().decode(T.self, from: _data)
                 completed(decodedTypeData,response,error)
-            }catch let err{completed(nil,response,err.localizedDescription)}
+            }catch let err{completed(nil,response,err)}
         }
     }
     
