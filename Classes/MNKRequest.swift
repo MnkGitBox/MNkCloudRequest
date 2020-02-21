@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 class MNKRequest {
     private let contentType:String
@@ -16,6 +18,8 @@ class MNKRequest {
     private var bodyParams:[RequestParams] = []
     
     private var request:URLRequest!
+
+    var task:URLSessionDataTask?
     
     init(to url:UrlConvertable,_ contentType:String,_ method:RequestMethod,_ headers:[String:String] = [:],_ parameters:Any? = nil,_ encoding:EnocodingType)throws{
         self.url = url
@@ -51,19 +55,49 @@ class MNKRequest {
     
     func perform(completed:@escaping (Data?,HTTPURLResponse?,Error?)->Void){
         
+        let session = URLSession.shared
+        
+        for header in headers{
+            request.addValue(header.value, forHTTPHeaderField: header.key )
+        }
+
+        task = session.dataTask(with: request) { (data, response, err) in
+            DispatchQueue.main.async {
+                completed(data,response as? HTTPURLResponse,err)
+            }
+            }
+        task?.resume()
+    }
+    
+    func performRx()->Observable<Data>{
+        let session = URLSession.shared
+        
         for header in headers{
             request.addValue(header.value, forHTTPHeaderField: header.key )
         }
         
-        let session = URLSession.shared
-        
-        session.dataTask(with: request) { (data, response, err) in
-            DispatchQueue.main.async {
-                completed(data,response as? HTTPURLResponse,err)
-            }
-            }.resume()
+        return session.rx.data(request: request)
     }
     
+//    func perform()->Observable<Data?>{
+//        
+//        return Observable<Data?>.create{observer in
+//            for header in self.headers{
+//                self.request.addValue(header.value, forHTTPHeaderField: header.key )
+//            }
+//            
+//            let task = URLSession.shared.dataTask(with: self.request) { data, response, err in
+//                observer.onNext(data)
+//                observer.onCompleted()
+//            }
+//            
+//            task.resume()
+//            
+//            return Disposables.create{
+//                task.cancel()
+//            }
+//        }
+//    }
 }
 
 

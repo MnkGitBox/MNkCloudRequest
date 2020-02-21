@@ -1,16 +1,33 @@
 PODS:
-  - MNkCloudRequest (0.1.0)
+  - MNkCloudRequest (1.0):
+    - RxCocoa (~> 5)
+    - RxSwift (~> 5)
+  - RxCocoa (5.0.1):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.0.1):
+    - RxSwift (~> 5)
+  - RxSwift (5.0.1)
 
 DEPENDENCIES:
   - MNkCloudRequest (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - RxCocoa
+    - RxRelay
+    - RxSwift
 
 EXTERNAL SOURCES:
   MNkCloudRequest:
     :path: "../"
 
 SPEC CHECKSUMS:
-  MNkCloudRequest: 7f665a44166ae28a4ce1a3cd1067330b5f7b9ad1
+  MNkCloudRequest: 09aacc17f30a4930faaaeb6a52ae54fae133588e
+  RxCocoa: e741b9749968e8a143e2b787f1dfbff2b63d0a5c
+  RxRelay: 89d54507f4fd4d969e6ec1d4bd7f3673640b4640
+  RxSwift: e2dc62b366a3adf6a0be44ba9f405efd4c94e0c4
 
 PODFILE CHECKSUM: 2ed0b826dce3a9fad5ce1a5a9b9a845c702e1dbb
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.8.4

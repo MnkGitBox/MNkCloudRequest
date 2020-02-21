@@ -6,12 +6,14 @@
 //  Copyright © 2018 Malith Nadeeshan. All rights reserved.
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 public struct MNkCloudRequest{
     
     public static var contentType:ContentType = .formData
     
-    //MARK:- REQUEST WITH NORMAL DATA RESULT..
+    //    //MARK:- REQUEST WITH NORMAL DATA RESULT..
     public static func request(_ urlConvertable:String,
                                _ method:RequestMethod = .get,
                                _ parameters:Any? = nil,
@@ -34,12 +36,14 @@ public struct MNkCloudRequest{
                                          headers,
                                          parameters,
                                          encoding)
+            
             request.perform(completed: completed)
             
         }catch{
             completed(nil,nil,error)
         }
     }
+    
     
     
     //MARK:- REQUEST WITH DECORDABLE MODEL RESULT..
@@ -114,4 +118,115 @@ public struct MNkCloudRequest{
         }
     }
     
+    
+    public static func rxRequestDecodable<T:Decodable>(_ urlConvertable:String,
+                                              _ method:RequestMethod = .get,
+                                              _ parameters:Any? = nil,
+                                              _ headers:[String:String] = [:],
+                                              _ encoding:EnocodingType = .json)->Observable<T>{
+        
+        return Observable<T>.create{ observer in
+            
+            var request:MNKRequest?
+            
+            do{
+                
+                request = try MNKRequest(to: urlConvertable,
+                                         contentType.rawValue,
+                                         method,
+                                         headers,
+                                         parameters,
+                                         encoding)
+                
+                request?.perform{ (data, response, err) in
+                    
+                    guard let _data = data else{
+                        observer.onError(err!)
+                        return
+                    }
+                    
+                    do{
+                        let result = try JSONDecoder().decode(T.self, from: _data)
+                        observer.onNext(result)
+                        
+                    }catch let error{
+                        observer.onError(error)
+                    }
+                    
+                    observer.onCompleted()
+                }
+                
+            }catch let reqError{
+                observer.onError(reqError)
+                observer.onCompleted()
+            }
+            
+            return Disposables.create {
+                request?.task?.cancel()
+            }
+            
+        }
+    }
+    
+    public static func rxRequestData(_ urlConvertable:String,
+                                              _ method:RequestMethod = .get,
+                                              _ parameters:Any? = nil,
+                                              _ headers:[String:String] = [:],
+                                              _ encoding:EnocodingType = .json)->Observable<Data>{
+        
+        return Observable<Data>.create{ observer in
+
+            var request:MNKRequest?
+
+            do{
+
+                request = try MNKRequest(to: urlConvertable,
+                                         contentType.rawValue,
+                                         method,
+                                         headers,
+                                         parameters,
+                                         encoding)
+
+                request?.perform{ (data, response, err) in
+
+                    guard let _data = data else{
+                        observer.onError(err!)
+                        return
+                    }
+                    
+                    observer.onNext(_data)
+                    observer.onCompleted()
+                }
+
+            }catch let reqError{
+                observer.onError(reqError)
+                observer.onCompleted()
+            }
+
+            return Disposables.create {
+                request?.task?.cancel()
+            }
+
+        }
+    }
+    
+//    public static func rxRequest<T:Decodable>(_ urlConvertable:String,
+//                                              _ method:RequestMethod = .get,
+//                                              _ parameters:Any? = nil,
+//                                              _ headers:[String:String] = [:],
+//                                              _ encoding:EnocodingType = .json)->Observable<T>{
+//
+//        let request =  try? MNKRequest(to: urlConvertable,
+//                                                 contentType.rawValue,
+//                                                 method,
+//                                                 headers,
+//                                                 parameters,
+//                                                 encoding)
+//        return request!.performRx()
+//            .map{data in
+//                return try JSONDecoder().decode(T.self, from: data)
+//        }.asObservable()
+//    }
+    
 }
+

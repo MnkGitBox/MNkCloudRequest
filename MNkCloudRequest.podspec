@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'MNkCloudRequest'
-  s.version          = '1.0'
+  s.version          = '1.1'
   s.summary          = 'Help iOS Network Request Lib.'
 
 # This description is used to generate tags and improve search results.
@@ -26,7 +26,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/MnkGitBox/MNkCloudRequest.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/malithnadeeshan'
 
-  s.ios.deployment_target = '11.0'
+  s.ios.deployment_target = '12.4'
 
   s.source_files = 'Classes/**/*'
   
@@ -36,6 +36,7 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
     s.frameworks = 'SystemConfiguration'
-  # s.dependency 'AFNetworking', '~> 2.3'
+    s.dependency 'RxSwift','~> 5'
+    s.dependency 'RxCocoa','~> 5'
     s.swift_version = '4.0'
 end
